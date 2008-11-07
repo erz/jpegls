@@ -13,11 +13,14 @@ exec = Compression
 
 all: $(exec)
 
-$(exec): main.o Fichiers.o Conversions.o
-	$(CC) -o $(exec) main.o Fichiers.o Conversions.o $(LDFLAGS)	
+$(exec): main.o Fichiers.o Conversions.o Compression.o
+	$(CC) -o $(exec) main.o Fichiers.o Conversions.o Compression.o $(LDFLAGS)	
 
 Fichiers.o: Fichiers.c Fichiers.h
 	$(CC) -o Fichiers.o -c Fichiers.c $(CFLAGS)
+	
+Compression.o: Compression.c Compression.h
+	$(CC) -o Compression.o -c Compression.c $(CFLAGS)	
 
 Conversions.o: Conversions.c Conversions.h
 	$(CC) -o Conversions.o -c Conversions.c $(CFLAGS)	
