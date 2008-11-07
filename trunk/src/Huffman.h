@@ -11,17 +11,6 @@
    #define SEPARATEUR_REPERTOIRE "/"
 #endif
 
-// Codes d'erreurs
-#define ERRCODE_PASDERREUR                  0L  
-#define ERRCODE_OUVERTURELECTURE            1L
-#define ERRCODE_OUVERTUREECRITURE           2L
-#define ERRCODE_PASANALYSE                  3L
-#define ERRCODE_PASCOMPRESSE                4L
-#define ERRCODE_FICHIERINDEFINI             5L
-#define ERRCODE_FICHIERVIDE                 6L
-#define ERRCODE_ERREURECRITURE              7L
-#define ERRCODE_ERREURLECTURE               8L
-#define ERRCODE_INATTENDUE                  9L
 
 
 
