@@ -122,8 +122,7 @@ namespace Huffman
          fSrc.open(sSource.c_str(), std::ios::in | std::ios::binary);
       else
       {
-         ErrCode = ERRCODE_FICHIERINDEFINI;
-         sErrString = "Veuillez préciser le nom du fichier source";
+         std::cout<<"Veuillez préciser le nom du fichier source"<<std::endl;
          return false;
       }
 
@@ -149,12 +148,10 @@ namespace Huffman
          // Fermeture du fichier
          fSrc.close();
          return true;
-         ErrCode = ERRCODE_PASDERREUR;
       }
       else
       {
-         ErrCode = ERRCODE_OUVERTURELECTURE;
-         sErrString = "Impossible d'ouvrir le fichier d'entrée en lecture";
+         std::cout<<"Impossible d'ouvrir le fichier d'entrée en lecture"<<std::endl;
          return false;
       }
    }
@@ -200,21 +197,18 @@ namespace Huffman
               fDst.open(sDestination.c_str(), std::ios::app | std::ios::binary);
             else
             {
-               ErrCode = ERRCODE_FICHIERINDEFINI;
               sErrString = "Veuillez préciser le nom du fichier de destination";
                return false;
             }
          }
          else
          {
-               ErrCode = ERRCODE_OUVERTURELECTURE;
               sErrString = "Impossible d'ouvrir le fichier d'entrée en lecture";
                return false;
          }
       }
       else
       {
-         ErrCode = ERRCODE_FICHIERINDEFINI;
          sErrString = "Veuillez préciser le nom du fichier source";
          return false;
       }
@@ -240,7 +234,6 @@ namespace Huffman
                fDst.write((char *)(&uData),sizeof(unsigned long int));
                if (!fDst.good())
                {
-                  ErrCode = ERRCODE_ERREURECRITURE;
                   sErrString = "Erreur lors de l'écriture des données";
                   return false;
                }
@@ -267,12 +260,10 @@ namespace Huffman
       }
       else
       {
-         ErrCode = ERRCODE_OUVERTUREECRITURE;
          sErrString = "Impossible d'ouvrir le fichier de sortie en écriture";
          return false;
       }
 
-      ErrCode = ERRCODE_PASDERREUR;
       return true;
    }
 
@@ -313,21 +304,18 @@ namespace Huffman
               fDst.open(sDestination.c_str(), std::ios::out | std::ios::binary);
             else
             {
-               ErrCode = ERRCODE_FICHIERINDEFINI;
               sErrString = "Veuillez préciser le nom du fichier de destination";
                return false;
             }
          }
          else
          {
-               ErrCode = ERRCODE_OUVERTURELECTURE;
               sErrString = "Impossible d'ouvrir le fichier d'entrée en lecture";
                return false;
          }
       }
       else
       {
-         ErrCode = ERRCODE_FICHIERINDEFINI;
          sErrString = "Veuillez préciser le nom du fichier source";
          return false;
       }
@@ -358,7 +346,6 @@ namespace Huffman
 
                if (!Pos)
                {
-                  ErrCode = ERRCODE_INATTENDUE;
                   sErrString = "Impossible de lire dans l'arbre de Huffman";
                   return false;
                }
@@ -369,7 +356,6 @@ namespace Huffman
                   fDst.write((char *)(&(Pos->Valeur)),1);
                   if (!fDst.good())
                   {
-                     ErrCode = ERRCODE_ERREURECRITURE;
                      sErrString = "Erreur lors de l'écriture des données";
                      return false;
                   }
@@ -392,12 +378,11 @@ namespace Huffman
       }
       else
       {
-         ErrCode = ERRCODE_OUVERTUREECRITURE;
+
          sErrString = "Impossible d'ouvrir le fichier de sortie en écriture";
          return false;
       }
 
-      ErrCode = ERRCODE_PASDERREUR;
       return true;
    }
 
@@ -414,7 +399,6 @@ namespace Huffman
          fSrc.open(sSource.c_str(), std::ios::in | std::ios::binary);
       else
       {
-         ErrCode = ERRCODE_FICHIERINDEFINI;
          sErrString = "Veuillez préciser le nom du fichier source";
          return 0L;
       }
@@ -429,12 +413,10 @@ namespace Huffman
          TailleFichier -= fSrc.tellg();
          fSrc.close();
 
-         ErrCode = ERRCODE_PASDERREUR;
          return TailleFichier;
       }
       else
       {
-         ErrCode = ERRCODE_OUVERTURELECTURE;
          sErrString = "Impossible d'ouvrir le fichier d'entrée en lecture";
          return 0L;
       }
@@ -460,12 +442,11 @@ namespace Huffman
          // Conversion de bits en octets
          TailleEvaluee = static_cast<unsigned long int>(TailleBits / 8L);
 
-         ErrCode = ERRCODE_PASDERREUR;
          return TailleEvaluee;
       }
       else
       {
-         ErrCode = ERRCODE_PASANALYSE;
+
          sErrString = "L'analyse n'a pas été effectuée";
          return 0L;
       }
@@ -484,7 +465,6 @@ namespace Huffman
             fDst.open(sDestination.c_str(), std::ios::in | std::ios::binary);
          else
          {
-            ErrCode = ERRCODE_FICHIERINDEFINI;
             sErrString = "Veuillez préciser le nom du fichier de destination";
             return 0L;
          }
@@ -498,19 +478,18 @@ namespace Huffman
             TailleFichier -= fDst.tellg();
             fDst.close();
 
-            ErrCode = ERRCODE_PASDERREUR;
             return TailleFichier;
          }
          else
          {
-            ErrCode = ERRCODE_OUVERTURELECTURE;
+
             sErrString = "Impossible d'ouvrir le fichier de sortie en lecture";
             return 0L;
          }
       }
       else
       {
-         ErrCode = ERRCODE_PASCOMPRESSE;
+
          sErrString = "La compression n'a pas été effectuée";
          return 0L;
       }
@@ -533,7 +512,7 @@ namespace Huffman
          }
          bCompresse = false;
       }
-      ErrCode = ERRCODE_PASDERREUR;
+
       sSource = sSrc;
    }
 
@@ -542,12 +521,10 @@ namespace Huffman
       // On considère que la compression n'a pas eu lieu
       bCompresse = false;
       sDestination = sDst;
-      ErrCode = ERRCODE_PASDERREUR;
    }
 
    void THuffman::SetDegreDialogue(const TDegreDialogue v)
    {
-      ErrCode = ERRCODE_PASDERREUR;
       DegreVerbalite = v;
    }
 
@@ -558,7 +535,6 @@ namespace Huffman
       if (!Progres)
          Progres = THuffman::AfficherMessage;
       FoncAffichageProgression = Progres;
-      ErrCode = ERRCODE_PASDERREUR;
    }
 
    void THuffman::SetFonctionEtape(TFoncMessage Etape)
@@ -568,7 +544,6 @@ namespace Huffman
       if (!Etape)
          Etape = THuffman::AfficherMessage;
       FoncAffichageEtape = Etape;
-      ErrCode = ERRCODE_PASDERREUR;
    }
 
 
@@ -600,7 +575,7 @@ namespace Huffman
 
    void THuffman::AfficherMessage(const std::string &sMessage)
    {
-      // Affichae sur la console par défaut
+      // Affichage sur la console par défaut
       std::cout << sMessage << std::endl;
    }
 
@@ -620,7 +595,7 @@ namespace Huffman
 
 
       if (DegreVerbalite & ddEtape)
-         FoncAffichageEtape("Ecriture de l'entête");
+         FoncAffichageEtape("Ecriture de l'entete");
 
       if (sSource.length())
       {
@@ -628,14 +603,12 @@ namespace Huffman
             fDst.open(sDestination.c_str(), std::ios::out | std::ios::binary);
          else
          {
-            ErrCode = ERRCODE_FICHIERINDEFINI;
             sErrString = "Veuillez préciser le nom du fichier de destination";
             return false;
          }
       }
       else
       {
-         ErrCode = ERRCODE_FICHIERINDEFINI;
          sErrString = "Veuillez préciser le nom du fichier source";
          return false;
       }
@@ -649,7 +622,6 @@ namespace Huffman
          fDst.write((char *)(&ULongValue),sizeof(unsigned long int));
          if (!fDst.good())
          {
-            ErrCode = ERRCODE_ERREURECRITURE;
             sErrString = "Erreur lors de l'écriture de l'entête";
             return false;
          }
@@ -664,7 +636,6 @@ namespace Huffman
 
          if (sSource.empty())
          {
-            ErrCode = ERRCODE_FICHIERINDEFINI;
             sErrString = "Veuillez préciser le fichier d'entrée";
             return false;
          }
@@ -675,7 +646,6 @@ namespace Huffman
          fDst.write((char *)(&UCharValue),sizeof(char));
          if (!fDst.good())
          {
-            ErrCode = ERRCODE_ERREURECRITURE;
             sErrString = "Erreur lors de l'écriture de l'entête";
             return false;
          }
@@ -683,7 +653,6 @@ namespace Huffman
          fDst.write(sNomFichier.c_str(),UCharValue);
          if (!fDst.good())
          {
-            ErrCode = ERRCODE_ERREURECRITURE;
             sErrString = "Erreur lors de l'écriture de l'entête";
             return false;
          }
@@ -692,7 +661,6 @@ namespace Huffman
          fDst.write((char *)(&NombreElements),sizeof(unsigned short int));
          if (!fDst.good())
          {
-            ErrCode = ERRCODE_ERREURECRITURE;
             sErrString = "Erreur lors de l'écriture de l'entête";
             return false;
          }
@@ -710,7 +678,6 @@ namespace Huffman
             fDst.write((char *)(&UCharValue),sizeof(char));
             if (!fDst.good())
             {
-               ErrCode = ERRCODE_ERREURECRITURE;
                sErrString = "Erreur lors de l'écriture de l'entête";
                return false;
             }
@@ -720,7 +687,6 @@ namespace Huffman
             fDst.write((char *)(&UCharValue),sizeof(char));
             if (!fDst.good())
             {
-               ErrCode = ERRCODE_ERREURECRITURE;
                sErrString = "Erreur lors de l'écriture de l'entête";
                return false;
             }
@@ -735,7 +701,6 @@ namespace Huffman
                fDst.write((char *)(&UCharValue),sizeof(char));
                if (!fDst.good())
                {
-                  ErrCode = ERRCODE_ERREURECRITURE;
                   sErrString = "Erreur lors de l'écriture de l'entête";
                   return false;
                }
@@ -750,7 +715,6 @@ namespace Huffman
                fDst.write((char *)(&UShortValue),sizeof(unsigned short int));
                if (!fDst.good())
                {
-                  ErrCode = ERRCODE_ERREURECRITURE;
                   sErrString = "Erreur lors de l'écriture de l'entête";
                   return false;
                }
@@ -763,12 +727,10 @@ namespace Huffman
          if (DegreVerbalite & ddProgression)
             FoncAffichageProgression("100%");
          fDst.close();
-         ErrCode = ERRCODE_PASDERREUR;
          return true;
       }
       else
       {
-         ErrCode = ERRCODE_OUVERTUREECRITURE;
          sErrString = "Impossible d'ouvrir le fichier de sortie en écriture";
          return false;
       }
@@ -793,7 +755,6 @@ namespace Huffman
          fSrc.open(sSource.c_str(), std::ios::in | std::ios::binary);
       else
       {
-         ErrCode = ERRCODE_FICHIERINDEFINI;
          sErrString = "Veuillez préciser le nom du fichier source";
          return false;
       }
@@ -810,7 +771,6 @@ namespace Huffman
          fSrc.read((char *)(&TailleReelle),sizeof(unsigned long int));
          if (!fSrc.good())
          {
-            ErrCode = ERRCODE_ERREURLECTURE;
             sErrString = "Erreur lors de la lecture de l'entête";
             return false;
          }
@@ -819,7 +779,6 @@ namespace Huffman
          fSrc.read((char *)(&UCharValue),sizeof(char));
          if (!fSrc.good())
          {
-            ErrCode = ERRCODE_ERREURLECTURE;
             sErrString = "Erreur lors de la lecture de l'entête";
             return false;
          }
@@ -831,7 +790,6 @@ namespace Huffman
          fSrc.read(buffer,UCharValue);
          if (!fSrc.good())
          {
-            ErrCode = ERRCODE_ERREURLECTURE;
             sErrString = "Erreur lors de la lecture de l'entête";
             return false;
          }
@@ -845,7 +803,6 @@ namespace Huffman
          fSrc.read((char *)(&NombreElements),sizeof(unsigned short int));
          if (!fSrc.good())
          {
-            ErrCode = ERRCODE_ERREURLECTURE;
             sErrString = "Erreur lors de la lecture de l'entête";
             return false;
          }
@@ -856,7 +813,6 @@ namespace Huffman
             fSrc.read((char *)(&UCharValue),sizeof(char));
             if (!fSrc.good())
             {
-               ErrCode = ERRCODE_ERREURLECTURE;
                sErrString = "Erreur lors de la lecture de l'entête";
                return false;
             }
@@ -866,7 +822,6 @@ namespace Huffman
             fSrc.read((char *)(&UCharValue),sizeof(char));
             if (!fSrc.good())
             {
-               ErrCode = ERRCODE_ERREURLECTURE;
                sErrString = "Erreur lors de la lecture de l'entête";
                return false;
             }
@@ -878,7 +833,6 @@ namespace Huffman
                fSrc.read((char *)(&UCharValue),sizeof(char));
                if (!fSrc.good())
                {
-                  ErrCode = ERRCODE_ERREURLECTURE;
                   sErrString = "Erreur lors de la lecture de l'entête";
                   return false;
                }
@@ -892,7 +846,6 @@ namespace Huffman
                fSrc.read((char *)(&UShortValue),sizeof(unsigned short int));
                if (!fSrc.good())
                {
-                  ErrCode = ERRCODE_ERREURLECTURE;
                   sErrString = "Erreur lors de la lecture de l'entête";
                   return false;
                }
@@ -912,12 +865,12 @@ namespace Huffman
          fSrc.seekg(0, std::ios::beg);
          FinEntete -= fSrc.tellg();
          fSrc.close();
-         ErrCode = ERRCODE_PASDERREUR;
+
          return true;
       }
       else
       {
-         ErrCode = ERRCODE_OUVERTURELECTURE;
+
          sErrString = "Impossible d'ouvrir le fichier d'entrée en lecture";
          return false;
       }
@@ -936,7 +889,6 @@ namespace Huffman
 
       if (!Statistiques)
       {
-         ErrCode = ERRCODE_PASANALYSE;
          sErrString = "L'analyse n'a pas été effectuée";
          return false;
       }
@@ -951,7 +903,6 @@ namespace Huffman
 
       if (FilePrioNoeuds.empty())
       {
-         ErrCode = ERRCODE_FICHIERVIDE;
          sErrString = "Fichier vide";
          return false;
       }
@@ -981,7 +932,6 @@ namespace Huffman
       // Détermination des codes de Huffman
       ArbreHuffman->DeterminerCodeHuffman("");
 
-      ErrCode = ERRCODE_PASDERREUR;
       return true;
 
    }
@@ -1014,7 +964,7 @@ namespace Huffman
 int main(int argc, char* argv[])
 {
    std::string msg;
-   Huffman::THuffman comp("../test/test.fm", "comp", ddEtape);
+   Huffman::THuffman comp("../test/test_entree", "../test/tmp_compresse", ddEtape);
 
    comp.Compresser();
 
@@ -1022,7 +972,7 @@ int main(int argc, char* argv[])
 
    std::cout << msg;
 
-   Huffman::THuffman dec("comp","../test/sortie", ddEtape);
+   Huffman::THuffman dec("../test/tmp_compresse","../test/test_decommpresse", ddEtape);
 
    dec.Decompresser();
 
