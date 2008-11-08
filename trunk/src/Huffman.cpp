@@ -23,8 +23,7 @@ namespace Huffman
       }
    }
 
-   void TNoeudHuffman::CreerFeuille(const std::string &sCode,
-                                    unsigned char valeur)
+   void TNoeudHuffman::CreerFeuille(const std::string &sCode, unsigned char valeur)
    {
       TNoeudHuffman * * p;
       // Détermination du pointeur qui va être modifié
@@ -80,14 +79,10 @@ namespace Huffman
 
    // Fonctions associées à THuffman
    // Fonctions publiques
-   THuffman::THuffman(const std::string &sSrc, const std::string &sDst,
-                      TDegreDialogue Dialogue, const TFoncMessage Progres,
-                      const TFoncMessage Etape)
-         : sSource(sSrc), sDestination(sDst), DegreVerbalite(Dialogue),
-	   bCompresse(false), ArbreHuffman(NULL), Statistiques(NULL)
+   THuffman::THuffman(const std::string &sSrc, const std::string &sDst)
+         : sSource(sSrc), sDestination(sDst), bCompresse(false), ArbreHuffman(NULL), Statistiques(NULL)
    {
-      SetFonctionProgression(Progres);
-      SetFonctionEtape(Etape);
+     
    }
 
    THuffman::~THuffman()
@@ -112,10 +107,7 @@ namespace Huffman
       unsigned long int Taille = TailleInitiale();
       unsigned long int Position = 0;
 
-      if (DegreVerbalite & ddEtape)
-         FoncAffichageEtape("Analyse du fichier source");
-
-
+      
       // Si le nom du fichier n'est pas défini ce n'est pas nécessaire d'essayer
       // de l'ouvrir
       if (sSource.length())
@@ -128,8 +120,6 @@ namespace Huffman
 
       if (fSrc.is_open())
       {
-         if (DegreVerbalite & ddProgression)
-            FoncAffichageProgression("0%");
          // Allocation du tableau de statistiques
          Statistiques = new TStatistiqueHuffman[256];
 
@@ -139,10 +129,8 @@ namespace Huffman
          {
             fSrc.read((char *)(&Valeur),sizeof(char));
             Statistiques[(unsigned char)(Valeur)].Frequence++;
-            sprintf(BufferProgression,"%d%%",int(float(Position)/Taille*100));
-            if (DegreVerbalite & ddProgression)
-               FoncAffichageProgression(BufferProgression);
-            Position++;
+            //sprintf(BufferProgression,"%d%%",int(float(Position)/Taille*100));
+            //Position++;
          }
 
          // Fermeture du fichier
@@ -182,9 +170,6 @@ namespace Huffman
          return false;
 
       // Compression du fichier source
-
-      if (DegreVerbalite & ddEtape)
-         FoncAffichageEtape("Compression en cours");
       if (sSource.length())
       {
          // Ouverture du fichier source
@@ -215,8 +200,6 @@ namespace Huffman
 
       if (fDst.is_open())
       {
-         if (DegreVerbalite & ddProgression)
-            FoncAffichageProgression("0%");
          // Parcours du fichier caractère par caractère
          // Les optimisations d'accès au fichier sont gérées par l'OS
          fSrc.read((char *)(&Valeur),sizeof(char));
@@ -241,8 +224,6 @@ namespace Huffman
                BufferOut.erase(0,32);
             }
             sprintf(BufferProg,"%d%%",int(float(Position) / TailleReelle * 100));
-            if (DegreVerbalite & ddProgression)
-               FoncAffichageProgression(BufferProg);
             Position++;
             fSrc.read((char *)(&Valeur),sizeof(char));
          }
@@ -250,7 +231,7 @@ namespace Huffman
          // vidage du reste du buffer
          Data.reset();
          BufferOut.resize(32,'0');
-        Data = static_cast<TDataBuffer>(BufferOut);
+         Data = static_cast<TDataBuffer>(BufferOut);
          uData = Data.to_ulong();
          fDst.write((char *)(&uData),sizeof(unsigned long int));
 
@@ -290,8 +271,6 @@ namespace Huffman
             return false;
 
       // Décompression du fichier source
-      if (DegreVerbalite & ddEtape)
-         FoncAffichageEtape("Décompression en cours");
       if (sSource.length())
       {
          // Ouverture du fichier source
@@ -323,8 +302,6 @@ namespace Huffman
       if (fDst.is_open())
       {
          fSrc.seekg(FinEntete, std::ios::beg);
-         if (DegreVerbalite & ddProgression)
-            FoncAffichageProgression("0%");
          Pos = ArbreHuffman;
          // Parcours du fichier 4 octets par 4 octets
          // Les optimisations d'accès au fichier sont gérées par l'OS
@@ -366,8 +343,6 @@ namespace Huffman
             }
 
             sprintf(BufferProg,"%d%%",int(float(Position) / TailleReelle * 100));
-            if (DegreVerbalite & ddProgression)
-               FoncAffichageProgression(BufferProg);
 
             fSrc.read((char *)(&uData),sizeof(unsigned long int));
          }
@@ -523,30 +498,6 @@ namespace Huffman
       sDestination = sDst;
    }
 
-   void THuffman::SetDegreDialogue(const TDegreDialogue v)
-   {
-      DegreVerbalite = v;
-   }
-
-   void THuffman::SetFonctionProgression(TFoncMessage Progres)
-   {
-      // Si l'adresse de la fonction est NULL alors on utilise la fonction par
-      // défaut instanciée par la classe
-      if (!Progres)
-         Progres = THuffman::AfficherMessage;
-      FoncAffichageProgression = Progres;
-   }
-
-   void THuffman::SetFonctionEtape(TFoncMessage Etape)
-   {
-      // Si l'adresse de la fonction est NULL alors on utilise la fonction par
-      // défaut instanciée par la classe
-      if (!Etape)
-         Etape = THuffman::AfficherMessage;
-      FoncAffichageEtape = Etape;
-   }
-
-
 
    std::string THuffman::GetSource() const
    {
@@ -557,28 +508,6 @@ namespace Huffman
    {
       return sDestination;
    }
-
-   TDegreDialogue THuffman::GetDegreDialogue() const
-   {
-      return DegreVerbalite;
-   }
-
-
-
-   unsigned int THuffman::GetDerniereErreur(std::string &sMessage) const
-   {
-      sMessage = sErrString;
-      return ErrCode;
-   }
-
-
-
-   void THuffman::AfficherMessage(const std::string &sMessage)
-   {
-      // Affichage sur la console par défaut
-      std::cout << sMessage << std::endl;
-   }
-
 
 
 
@@ -594,8 +523,6 @@ namespace Huffman
       char BufferProgression[10];
 
 
-      if (DegreVerbalite & ddEtape)
-         FoncAffichageEtape("Ecriture de l'entete");
 
       if (sSource.length())
       {
@@ -615,8 +542,6 @@ namespace Huffman
 
       if (fDst.is_open())
       {
-         if (DegreVerbalite & ddProgression)
-            FoncAffichageProgression("0%");
          // Ecriture de la taille du fichier en octets
          ULongValue = TailleInitiale();
          fDst.write((char *)(&ULongValue),sizeof(unsigned long int));
@@ -665,8 +590,6 @@ namespace Huffman
             return false;
          }
 
-         if (DegreVerbalite & ddProgression)
-            FoncAffichageProgression("1%");
          for (int i = 0 ; i < 256 ; i++)
          {
             // Si le caractère a une fréquence nulle on passe au suivant
@@ -720,12 +643,8 @@ namespace Huffman
                }
             }
             sprintf(BufferProgression,"%d%%",(((i*99)/256) + 1));
-            if (DegreVerbalite & ddProgression)
-               FoncAffichageProgression(BufferProgression);
          }
 
-         if (DegreVerbalite & ddProgression)
-            FoncAffichageProgression("100%");
          fDst.close();
          return true;
       }
@@ -748,8 +667,6 @@ namespace Huffman
       char BufferProgression[10];
 
 
-      if (DegreVerbalite & ddEtape)
-         FoncAffichageEtape("Lecture de l'entête");
 
       if (sSource.length())
          fSrc.open(sSource.c_str(), std::ios::in | std::ios::binary);
@@ -855,12 +772,10 @@ namespace Huffman
             }
 
             sprintf(BufferProgression,"%d%%",(((Elt*99)/256) + 1));
-            if (DegreVerbalite & ddProgression)
-               FoncAffichageProgression(BufferProgression);
+           
          }     
 
-         if (DegreVerbalite & ddProgression)
-            FoncAffichageProgression("100%");
+         
          FinEntete = fSrc.tellg();
          fSrc.seekg(0, std::ios::beg);
          FinEntete -= fSrc.tellg();
@@ -940,10 +855,6 @@ namespace Huffman
    bool THuffman::ConstruireArbreCode()
    {
       char BufferProg[10];
-      if (DegreVerbalite & ddEtape)
-         FoncAffichageEtape("Création de l'arbre de décodage");
-      if (DegreVerbalite & ddProgression)
-         FoncAffichageProgression("0%");
       // Création de la racine
       ArbreHuffman = new TNoeudHuffman();
       for (int i = 0 ; i <  256 ; i++)
@@ -953,8 +864,7 @@ namespace Huffman
             ArbreHuffman->CreerFeuille(Statistiques[i].sCode, i);
          }
          sprintf(BufferProg, "%d%%", (i * 100)/256);
-         if (DegreVerbalite & ddProgression)
-            FoncAffichageProgression(BufferProg);
+         
       }
       return true;
    }
@@ -963,24 +873,14 @@ namespace Huffman
 
 int main(int argc, char* argv[])
 {
-   std::string msg;
-   Huffman::THuffman comp("../test/test_entree", "../test/tmp_compresse", ddEtape);
+   Huffman::THuffman comp("../test/test_entree", "../test/tmp_compresse");
 
    comp.Compresser();
 
-   comp.GetDerniereErreur(msg);
-
-   std::cout << msg;
-
-   Huffman::THuffman dec("../test/tmp_compresse","../test/test_decommpresse", ddEtape);
+   Huffman::THuffman dec("../test/tmp_compresse","../test/test_decompresse");
 
    dec.Decompresser();
 
-   dec.GetDerniereErreur(msg);
-
-   std::cout << msg;
-
-  
    return 0;
 }
 
