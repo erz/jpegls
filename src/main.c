@@ -81,9 +81,9 @@ int main(int argc, char *argv[])
 					else
 					{
 						//On appelle la fonction de compression.
-						printf("Décompression en cours...\n") ;
-						compresser(argv[2], argv[3]) ;
-						printf("\nLa décompression a reussie .\n") ;
+						printf("Decompression en cours...\n") ;
+						decompresser(argv[2], argv[3]) ;
+						printf("\nLa decompression a reussie .\n") ;
 					}
 					
 				}
