@@ -871,17 +871,4 @@ namespace Huffman
 
 }
 
-/*int main(int argc, char* argv[])
-{
-   Huffman::THuffman comp("../test/test_entree", "../test/tmp_compresse");
-
-   comp.Compresser();
-
-   Huffman::THuffman dec("../test/tmp_compresse","../test/test_decompresse");
-
-   dec.Decompresser();
-
-   return 0;
-}
-*/
 
