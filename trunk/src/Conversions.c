@@ -55,7 +55,7 @@ extern int binaireEntier(char *chaineBinaire)
 extern char *entierBinaire(int nombre, int nbBits)
 {	
 	int indice ;
-	char *valeur = malloc(nbBits + 1) ;
+	char *valeur = (char *)malloc(nbBits + 1) ;
 	valeur[nbBits] = '\0' ;
 	
 	for (indice = (nbBits-1) ; indice >= 0 ; indice--)
@@ -88,9 +88,9 @@ extern char *binaireAscii(char *chaineBinaire)
      int indice3 = 0 ;
      char valeurAscii = 0 ;
      int longueurBinaire = strlen(chaineBinaire) ;
-     char *chaineTemp = malloc(9) ;
+     char *chaineTemp = (char *)malloc(9) ;
 	chaineTemp[8] = '\0' ;     
-	char *chaineAscii = malloc((longueurBinaire / 8) + 1) ;
+	char *chaineAscii = (char *)malloc((longueurBinaire / 8) + 1) ;
 	chaineAscii[longueurBinaire / 8] = '\0' ;
 
      for(indice1 = 0 ; indice1 < longueurBinaire ; indice1++)
@@ -124,9 +124,9 @@ extern char *asciiBinaire(char *chaineAscii)
 	int longueurAscii = strlen(chaineAscii) ;
 	int longueurBin = (longueurAscii * 8) ;
      int valeurAscii = 0 ;
-     char *chaineTemp = malloc(9) ;
+     char *chaineTemp = (char *)malloc(9) ;
 	chaineTemp[8] = '\0' ;     
-	char *chaineBinaire = malloc(longueurBin + 1) ;     
+	char *chaineBinaire = (char *)malloc(longueurBin + 1) ;     
      chaineBinaire[longueurBin] = '\0' ;
      
      for ( indice1 = 0 ; indice1 < longueurAscii ; indice1++ )
@@ -158,7 +158,7 @@ extern char *additionBitABit(char *mot1, char *mot2)
      int longMot1 = strlen(mot1) ;
      int longMot2 = strlen(mot2) ;
      int longueurMax = (longMot1 > longMot2) ? longMot1 : longMot2 ;
-     char *resultat = malloc(longueurMax + 1) ;
+     char *resultat = (char *)malloc(longueurMax + 1) ;
      
      if (longMot1 == longueurMax)
      {

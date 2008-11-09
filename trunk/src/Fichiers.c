@@ -90,8 +90,8 @@ extern char *lireDansFichier(FILE *fichier, int nbALire)
 {
 	int indice = 0 ;
 	int valEnt;
-	char *buffOct  = malloc(8+1) ;
-	char *buffer = malloc(nbALire*8+1) ;
+	char *buffOct  = (char *)malloc(8+1) ;
+	char *buffer = (char *)malloc(nbALire*8+1) ;
 	strcpy(buffer, "") ;
 	
     for (indice = 0; indice < nbALire; ++indice)
@@ -123,7 +123,7 @@ extern void ecrireDansFichier(FILE *fichier, char *chaine, int nbAEcrire)
 {
     int indice1 ;
     int indice2 ;
-    char *buffer = malloc(9) ;
+    char *buffer = (char *)malloc(9) ;
     int valEnt;
     for (indice1 = 0; indice1 < nbAEcrire; ++indice1)
     {
