@@ -15,6 +15,7 @@
 
 #include "Fichiers.h"
 #include "Compression.h"
+#include "Huffman.h"
 
 
 /***************************************************************************************
@@ -30,7 +31,7 @@
 extern void compresser(const char *fichierACompresser, const char *fichierDestination)
 {
 	///////////////TEST//////////////
-	
+	/*
 	FILE *source = NULL ;
 	FILE *destination = NULL ;
 	char *chaine = (char *)malloc(65) ;
@@ -49,7 +50,10 @@ extern void compresser(const char *fichierACompresser, const char *fichierDestin
 	}
 	
 	free(chaine);
-	
+	*/
+   Huffman::THuffman comp(fichierACompresser,fichierDestination);
+
+   comp.Compresser();
 	
 	//////////////FIN TEST/////////////
 }
@@ -87,5 +91,7 @@ extern char* lz77(char * chaineACompresser)
 */
 extern void decompresser(const char *fichierADecompresser, const char *fichierDestination)
 {
-	////////A CODER/////
+	 Huffman::THuffman dec(fichierADecompresser,fichierDestination);
+
+   	 dec.Decompresser();
 }
