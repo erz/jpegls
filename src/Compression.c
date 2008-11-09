@@ -33,7 +33,7 @@ extern void compresser(const char *fichierACompresser, const char *fichierDestin
 	
 	FILE *source = NULL ;
 	FILE *destination = NULL ;
-	char *chaine = malloc(65) ;
+	char *chaine = (char *)malloc(65) ;
 	
 	source = ouvrirFichier(fichierACompresser, "rb") ;
 	destination = ouvrirFichier(fichierDestination, "wb+") ;

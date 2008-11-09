@@ -6,7 +6,7 @@
 # Pour effacer les fichiers objet et l'executable : tapez "make clean"
 #--------------------------------------------------------------------
 
-CC = gcc
+CC = g++
 CFLAGS = -Wall 
 LDFLAGS = -lm -Wall 
 exec = Compression
