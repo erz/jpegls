@@ -16,7 +16,7 @@
 
 #include "Fichiers.h"
 #include "Compression.h"
-#include "Huffman.h"
+
 
 /*	DEFINES	*/
 #ifdef WIN32

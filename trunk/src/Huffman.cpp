@@ -871,7 +871,7 @@ namespace Huffman
 
 }
 
-int main(int argc, char* argv[])
+/*int main(int argc, char* argv[])
 {
    Huffman::THuffman comp("../test/test_entree", "../test/tmp_compresse");
 
@@ -883,4 +883,5 @@ int main(int argc, char* argv[])
 
    return 0;
 }
+*/
 
