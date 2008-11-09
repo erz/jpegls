@@ -51,11 +51,12 @@ extern void compresser(const char *fichierACompresser, const char *fichierDestin
 	
 	free(chaine);
 	*/
+	//////////////FIN TEST/////////////
    Huffman::THuffman comp(fichierACompresser,fichierDestination);
 
    comp.Compresser();
 	
-	//////////////FIN TEST/////////////
+	
 }
 
 /**
