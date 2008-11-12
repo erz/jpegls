@@ -16,6 +16,7 @@
 #include "Fichiers.h"
 #include "Compression.h"
 #include "Huffman.h"
+#include "Lz77.h"
 
 
 /***************************************************************************************
@@ -30,69 +31,74 @@
 */
 extern void compresser(const char *fichierACompresser, const char *fichierDestination)
 {
-	///////////////TEST//////////////
-	/*
-	FILE *source = NULL ;
-	FILE *destination = NULL ;
-	char *chaine = (char *)malloc(65) ;
-	
-	source = ouvrirFichier(fichierACompresser, "rb") ;
-	destination = ouvrirFichier(fichierDestination, "wb+") ;
-	while (!finFichier(source))
+	//On trouve un nom de fichier temporaire qui n'existe pas dans le dossier.
+	char * nomTemp = ".TEMP";
+	while(existeFichier(nomTemp))
 	{
-		chaine = lireDansFichier(source, 10) ;	
-		if (chaine == NULL) 
-			 break ;
-		
-		huffmann(lz77(chaine));
-		
-		ecrireDansFichier(destination, chaine, 10) ;
+			char * nomTemp2 = (char*)malloc(sizeof(*nomTemp)+2);
+			strcat(nomTemp2, nomTemp);
+			strcat(nomTemp2, "_\0");
+			nomTemp = nomTemp2;
 	}
 	
-	free(chaine);
-	*/
-	//////////////FIN TEST/////////////
-   Huffman::THuffman comp(fichierACompresser,fichierDestination);
-
-   comp.Compresser();
+	//LZ77
+	printf("Compression LZ77 en cours...\n");
+    FILE *source = NULL ;
+	FILE *destination = NULL ;
+	dico* dictionnaire = NULL;
 	
+	source = ouvrirFichier(fichierACompresser, "rb") ;
+	destination = ouvrirFichier(nomTemp, "wb+") ;
+	dictionnaire = creerDico();
+	LZ_Compression(dictionnaire, source, destination);
+	fermerFichier(source);
+	fermerFichier(destination);
+	detruireDico(dictionnaire);
+	printf("Compression LZ77 terminee.\n");
 	
-}
-
-/**
-*Codage de Huffmann
-*
-*@param chaine Chaine de bits à compresser
-*@return renvoie la chaine compressée
-*/
-extern char* huffmann(char * chaineACompresser)
-{
-		///////////A CODER
-		return chaineACompresser;
-}
-
-/**
-*Codage de Huffmann
-*
-*@param chaine Chaine de bits à compresser
-*@return renvoie la chaine compressée
-*/
-extern char* lz77(char * chaineACompresser)
-{
-		///////////A CODER
-		printf("Lu : %s\n", chaineACompresser);
-		return chaineACompresser;
+	// HUFFMAN 
+	printf("Compression Huffman en cours...\n");
+    Huffman::THuffman comp(nomTemp,fichierDestination);
+    comp.Compresser();
+	printf("Compression Huffman terminee...\n");
 }
 
 /**
 *Décompresse le fichier.
 *
-*@param fichierADeompresser Le fichier d'origine
+*@param fichierADecompresser Le fichier d'origine
 *@param fichierDestination Le fichier de destination
 */
 extern void decompresser(const char *fichierADecompresser, const char *fichierDestination)
-{
-	 Huffman::THuffman dec(fichierADecompresser,fichierDestination);
-
-   	 dec.Decompresser();
+{  	
+	//On trouve un nom de fichier temporaire qui n'existe pas dans le dossier.
+	char * nomTemp = ".TEMP";
+	while(existeFichier(nomTemp))
+	{
+			char * nomTemp2 = (char*)malloc(sizeof(*nomTemp)+2);
+			strcat(nomTemp2, nomTemp);
+			strcat(nomTemp2, "_\0");
+			nomTemp = nomTemp2;
+	}
+ 	
+	//HUFFMAN
+	printf("Decompression Huffman en cours...\n");
+	Huffman::THuffman dec(fichierADecompresser,nomTemp);
+	dec.Decompresser();
+	printf("Decompression Huffman terminee.\n");
+	
+   	//LZ77 
+	printf("Decompression LZ77 en cours...\n");
+    FILE *source = NULL ;
+	FILE *destination = NULL ;
+	dico* dictionnaire = NULL;
+	
+	source = ouvrirFichier(nomTemp, "rb") ;
+	destination = ouvrirFichier(fichierDestination, "wb+") ;
+	dictionnaire = creerDico();
+	LZ_Decompression(dictionnaire, source, destination);
+	fermerFichier(source);
+	fermerFichier(destination);
+	detruireDico(dictionnaire);
+	printf("Decompression LZ77 terminee.\n");
 }

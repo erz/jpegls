@@ -1,3 +1,14 @@
+/**
+*@file Huffman.cpp
+*@author Aurelien FIOL
+*@author Florent MAS
+*@date 13.12.2006
+*@version 1.00
+*
+*Ce module gere tout ce qui rapporte à la compression par l'algorithme de Huffman.
+*/
+
+
 #include <queue>
 #include <fstream>
 #include <bitset>
