@@ -12,12 +12,9 @@
 #ifndef __COMPRESSION__
 #define __COMPRESSION__
 
-/*	INCLUDES	*/
 
 /*	DECLARATIONS	*/
 extern void compresser(const char *fichierACompresser, const char *fichierDestination) ;
-extern char* huffmann(char * chaineACompresser) ;
-extern char* lz77(char * chaineACompresser);
 extern void decompresser(const char *fichierADecompresser, const char *fichierDestination) ;
 
 #endif

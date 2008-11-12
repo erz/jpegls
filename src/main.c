@@ -70,8 +70,8 @@ int main(int argc, char *argv[])
 				}
 				//Alors on lance le programme
 				else
-				{                
-					if (strcmp(argv[1],"c"))
+				{             
+					if (!strcmp(argv[1],"c"))
 					{		
 						//On appelle la fonction de compression.
 						printf("Compression en cours...\n") ;
@@ -108,12 +108,10 @@ int main(int argc, char *argv[])
 static void afficherAide(void)
 {
      printf("\nLe programme necessite que vous indiquiez 2 parametres :\n") ;
-     printf("\t1. L'action souhaitee (c pour compression, d pour décompression.\n") ;
+     printf("\t1. L'action souhaitee (c pour compression, d pour decompression.\n") ;
      printf("\t2. Le nom du fichier source .\n") ;
-	printf("\t3. Le nom du fichier une fois compressé.\n") ;
+	 printf("\t3. Le nom du fichier de sortie souhaite.\n") ;
      printf("\nL'usage du programme est donc :\n") ;
      printf("\n\t.\\Compression <c|d> <nom_fichier_source> <nom_fichier_destination>\n") ;
      printf("\n") ;
-     printf("<nom_fichier_source>\t: nom du fichier a crypter ou decrypter .\n") ;
-	printf("<nom_fichier_destination>\t: nom du fichier une fois crypte ou decrypte .\n") ;
 }

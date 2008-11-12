@@ -1,5 +1,16 @@
-#ifndef HUFFMAN_HEADER
-#define HUFFMAN_HEADER _
+/**
+*@file Huffman.h
+*@author Aurelien FIOL
+*@author Florent MAS
+*@date 13.12.2006
+*@version 1.00
+*
+*Ce module gere tout ce qui rapporte à la compression par l'algorithme de Huffman.
+*/
+
+
+#ifndef __HUFFMAN_HEADER__
+#define __HUFFMAN_HEADER__
 
 #include <string>
 #include <iostream>

@@ -13,9 +13,12 @@ exec = Compression
 
 all: $(exec)
 
-$(exec): main.o Fichiers.o Conversions.o Compression.o Huffman.o
-	$(CC) -o $(exec) main.o Fichiers.o Conversions.o Compression.o Huffman.o $(LDFLAGS)	
+$(exec): main.o Fichiers.o Conversions.o Compression.o Huffman.o Lz77.o
+	$(CC) -o $(exec) main.o Fichiers.o Conversions.o Compression.o Huffman.o Lz77.o $(LDFLAGS)	
 
+Lz77.o: Lz77.c Lz77.h
+	$(CC) -o Lz77.o -c Lz77.c $(CFLAGS)
+	
 Huffman.o: Huffman.cpp Huffman.h
 	$(CC) -o Huffman.o -c Huffman.cpp $(CFLAGS)
 	
@@ -36,5 +39,6 @@ clean:
 
 mrproper: clean
 	rm -rf $(exec)
+	rm -rf .TEMP*
 
 #---------------------fin makefile--------------------------
