@@ -7,7 +7,7 @@
 #--------------------------------------------------------------------
 
 CC = g++
-CFLAGS = -Wall 
+CFLAGS = -Wall -O3
 LDFLAGS = -lm -Wall -O3
 exec = Compression
 
