@@ -8,7 +8,7 @@
 
 CC = g++
 CFLAGS = -Wall 
-LDFLAGS = -lm -Wall 
+LDFLAGS = -lm -Wall -O3
 exec = Compression
 
 all: $(exec)
