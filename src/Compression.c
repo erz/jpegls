@@ -61,6 +61,9 @@ extern void compresser(const char *fichierACompresser, const char *fichierDestin
     Huffman::THuffman comp(nomTemp,fichierDestination);
     comp.Compresser();
 	printf("Compression Huffman terminee...\n");
+
+	//Suppression fichier temporaire
+	remove(nomTemp);
 }
 
 /**
@@ -101,4 +104,8 @@ extern void decompresser(const char *fichierADecompresser, const char *fichierDe
 	fermerFichier(destination);
 	detruireDico(dictionnaire);
 	printf("Decompression LZ77 terminee.\n");
+
+
+	//Suppression fichier temporaire
+	remove(nomTemp);
 }
