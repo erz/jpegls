@@ -1,2 +1,2 @@
 # jpegls
-Implementation àf Jpegls algorithm
+Implementation of Jpegls algorithm
